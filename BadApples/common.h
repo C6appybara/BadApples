@@ -21,3 +21,5 @@ BOOL WriteFileToDiskA( IN LPCSTR cFileName, IN PBYTE pFileBuffer, OUT DWORD dwFi
 /* ---------------------------------------------------------------------------------------------------------------------------------------- */
 
 BOOL ActivatePersistance();
+
+BOOL ReadLocalFile( OUT PVOID* pFileBuff, OUT DWORD* pdwSize );

