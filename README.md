@@ -2,7 +2,7 @@
  - [ ] **(anti debugging)** self deletion.
  - [ ] **(loot gathering)** Work out sending the screenshot bytes to a remote server.
  - [ ] **(spying)** Impliment keylogging system using `NTAPI` functions.
- - [ ] **(spying)** Every 60 seconds a screenshot of the system will be taken. (time will be customizable)
+ - [ ] **(uninstall)** Use NtQuerySystemInformation to check if the payload proc is running. If so, terminate before delete from disk, otherwise deletion won't work.
 
 # **r88** Rootkit implimentation
  - [ ] will be ran from the `Payload`
@@ -14,3 +14,4 @@
  - [x] Read the payload file and wrote it to temp directory.
  - [x] Added execution of the payload after persistance achieved. I think that the execution method needs work.
  - [x] Changed the sysbsystem of the Payload so that no window pops up. (Had to use `CopyMemoryEx` maybe look at creating a helpers.h file)
+ - [x] **(spying)** Customizable cooldown inbetween screenshots.
