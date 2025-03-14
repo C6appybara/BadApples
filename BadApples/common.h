@@ -1,5 +1,8 @@
 #pragma once
 
+#define PAYLOAD_NAME L"Update.exe"
+#define REGISTRY_SUBKEY L"Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\"
+
 /* ---------------------------------------------------------------------------------------------------------------------------------------- */
 
 #define U_PTR( x ) (UINT_PTR) x

