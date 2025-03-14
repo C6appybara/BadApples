@@ -1,6 +1,11 @@
 #include <windows.h>
+#include <Shlwapi.h>
 #include <stdio.h>
-#include "common.h"
+
+#pragma comment(lib, "Shlwapi.lib")
+
+#define U_PTR( x ) (UINT_PTR) x
+#define C_PTR( x ) (PVOID) x
 
 BOOL WriteFileToDiskW( IN LPCWSTR cFileName, IN PBYTE pFileBuffer, OUT DWORD dwFileSize )
 {
@@ -190,4 +195,33 @@ LEAVE:
 	}
 
 	return Success;
+}
+
+int main( void )
+{
+	PVOID pBuffer = NULL;
+	ULONG uLong = NULL;
+	LPCWSTR lpTempDir[ MAX_PATH ];
+
+	if ( !GetTempPathW( MAX_PATH, lpTempDir ) )
+	{
+		return -1;
+	}
+
+	StrCatW( lpTempDir, L"Screenshot.bmp" );
+
+	if ( !ScreenshotBmp( &pBuffer, &uLong ) )
+	{
+		return -1;
+	}
+
+	if ( !WriteFileToDiskW( lpTempDir, pBuffer, uLong ) )
+	{
+		return -1;
+	}
+
+	RtlSecureZeroMemory( pBuffer, uLong );
+	HeapFree( GetProcessHeap(), HEAP_ZERO_MEMORY, pBuffer );
+
+	return 0;
 }

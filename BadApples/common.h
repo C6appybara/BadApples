@@ -5,13 +5,6 @@
 #define U_PTR( x ) (UINT_PTR) x
 #define C_PTR( x ) (PVOID) x
 
-BOOL ScreenshotBmp(
-	_Out_ PVOID* Buffer,
-	_Out_ PULONG Length
-);
-
-BOOL WriteFileToDiskW( IN LPCWSTR cFileName, IN PBYTE pFileBuffer, OUT DWORD dwFileSize );
-
 /* ---------------------------------------------------------------------------------------------------------------------------------------- */
 
 #define REG_ERR( cApiName, ... ) printf("(-) %s FAILED: %lx\n", cApiName)
