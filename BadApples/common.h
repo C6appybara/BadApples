@@ -19,3 +19,5 @@
 BOOL ActivatePersistance();
 
 BOOL ReadLocalFile( OUT PVOID* pFileBuff, OUT DWORD* pdwSize );
+
+BOOL WritePayloadToTemp(IN LPCWSTR TempDirectory);

