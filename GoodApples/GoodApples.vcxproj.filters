@@ -18,5 +18,19 @@
     <ClCompile Include="Uninstall.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Registry.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Payload.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Processes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="typedef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

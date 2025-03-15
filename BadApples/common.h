@@ -29,9 +29,24 @@
 #define LOG_ERR( cApiName, ... ) printf("(-) %s FAILED: %d\n", cApiName, GetLastError())
 
 /* ---------------------------------------------------------------------------------------------------------------------------------------- */
+// installation functions
 
 BOOL ActivatePersistance();
 
 BOOL ReadLocalFile( OUT PVOID* pFileBuff, OUT DWORD* pdwSize );
 
-BOOL WritePayloadToTemp(IN LPCWSTR TempDirectory);
+BOOL WritePayloadToTemp( IN LPCWSTR TempDirectory );
+
+/* ---------------------------------------------------------------------------------------------------------------------------------------- */
+// uninstall functions
+
+BOOL DeletePersistanceReg();
+
+BOOL RemovePayloadFromDisk();
+
+/* ---------------------------------------------------------------------------------------------------------------------------------------- */
+// helper functions
+
+BOOL TerminateRunningProcess( IN DWORD dwPid );
+
+BOOL CheckProcesses( IN LPCWSTR lpProcessName, OUT DWORD* dwPid );

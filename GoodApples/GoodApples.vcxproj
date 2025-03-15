@@ -131,7 +131,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Payload.c" />
+    <ClCompile Include="Registry.c" />
+    <ClCompile Include="Processes.c" />
     <ClCompile Include="Uninstall.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="typedef.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
