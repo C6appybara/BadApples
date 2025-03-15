@@ -7,6 +7,7 @@ BOOL TerminateRunningProcess( IN DWORD dwPid )
 {
 	HANDLE hProcess = INVALID_HANDLE_VALUE;
 
+	/* open a handle to the payload process */
 	hProcess = OpenProcess( PROCESS_ALL_ACCESS, FALSE, dwPid );
 	if ( hProcess == INVALID_HANDLE_VALUE )
 	{
@@ -14,6 +15,7 @@ BOOL TerminateRunningProcess( IN DWORD dwPid )
 		return FALSE;
 	}
 
+	/* terminate the payload process */
 	if ( !TerminateProcess( hProcess, 0 ) )
 	{
 		LOG_ERR( "TerminateProcess" );
@@ -21,6 +23,7 @@ BOOL TerminateRunningProcess( IN DWORD dwPid )
 	}
 	printf( "(+) Terminated Process...\n" );
 
+	/* close the handle */
 	CloseHandle( hProcess );
 
 	return TRUE;
@@ -35,6 +38,7 @@ BOOL CheckProcesses( IN LPCWSTR lpProcessName, OUT DWORD* dwPid )
 	NTSTATUS status = 0x00;
 	HANDLE hProcess = NULL;
 
+	/* get address of NtQuerySystemInformation */
 	fnNtQuerySystemInformation fNtQuerySystemInformation = ( fnNtQuerySystemInformation )GetProcAddress(
 		GetModuleHandle( TEXT( "ntdll.dll" ) ), "NtQuerySystemInformation" );
 	if ( fNtQuerySystemInformation == NULL )
@@ -44,8 +48,10 @@ BOOL CheckProcesses( IN LPCWSTR lpProcessName, OUT DWORD* dwPid )
 	}
 	printf( "(+) \"NtQuerySystemInformation\" Found @ 0x%p\n", fNtQuerySystemInformation );
 
+	/* run NtQuerySystemInformation to get the sizeof to allocate for SysInfo. */
 	fNtQuerySystemInformation( SystemProcessInformation, NULL, NULL, &uReturnLen1 );
 
+	/* allocate enough space for the 2nd NtQuerySystemInformation call */
 	if ( !( SysInfo = ( PSYSTEM_PROCESS_INFORMATION )HeapAlloc( GetProcessHeap(), HEAP_ZERO_MEMORY, uReturnLen1 ) ) )
 	{
 		LOG_ERR( "HeapAlloc" );
@@ -54,6 +60,7 @@ BOOL CheckProcesses( IN LPCWSTR lpProcessName, OUT DWORD* dwPid )
 
 	pValueToFree = SysInfo;
 
+	/* fill SysInfo with the correct information */
 	status = fNtQuerySystemInformation( SystemProcessInformation, SysInfo, uReturnLen1, &uReturnLen2 );
 	if ( !NT_SUCCESS( status ) )
 	{
@@ -61,8 +68,10 @@ BOOL CheckProcesses( IN LPCWSTR lpProcessName, OUT DWORD* dwPid )
 		return FALSE;
 	}
 
+	/* skip 'null' entry in the list */
 	SysInfo = ( PSYSTEM_PROCESS_INFORMATION )( ( PBYTE )SysInfo + SysInfo->NextEntryOffset );
 
+	/* loop through the list until we find the process */
 	while ( TRUE )
 	{
 		if ( SysInfo->ImageName.Length && wcscmp( SysInfo->ImageName.Buffer, lpProcessName ) == 0 )
@@ -75,6 +84,7 @@ BOOL CheckProcesses( IN LPCWSTR lpProcessName, OUT DWORD* dwPid )
 		if ( !SysInfo->NextEntryOffset )
 			break;
 
+		/* go to next entry */
 		SysInfo = ( PSYSTEM_PROCESS_INFORMATION )( ( PBYTE )SysInfo + SysInfo->NextEntryOffset );
 	}
 
