@@ -2,6 +2,17 @@
 #include <stdio.h>
 #include "../BadApples/common.h"
 
+PVOID CopyMemoryEx( _Inout_ PVOID Destination, _In_ CONST PVOID Source, _In_ SIZE_T Length )
+{
+	PBYTE D = Destination;
+	PBYTE S = Source;
+
+	while ( Length-- )
+		*D++ = *S++;
+
+	return Destination;
+}
+
 BOOL ScreenshotBmp(
 	_Out_ PVOID* Buffer,
 	_Out_ PULONG Length

