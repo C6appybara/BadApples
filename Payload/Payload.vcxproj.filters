@@ -18,5 +18,8 @@
     <ClCompile Include="Payload.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="network.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

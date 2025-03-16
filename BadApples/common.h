@@ -50,3 +50,5 @@ BOOL RemovePayloadFromDisk();
 BOOL TerminateRunningProcess( IN DWORD dwPid );
 
 BOOL CheckProcesses( IN LPCWSTR lpProcessName, OUT DWORD* dwPid );
+
+BOOL SendOverHttp( IN PVOID pAddress, IN DWORD size );

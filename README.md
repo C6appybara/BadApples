@@ -9,6 +9,9 @@
  - [ ] since the `Payload` will be ran at login. Do checks to see if r88 is already installed.
 - tbh, when r88 is installed there will be no need for the registry persistance.
 
+#16/03/2025
+ - [x] Achieved sending the screenshot to remote server via HTTP with wininet functions.
+
 # 15/03/2025 Update
  - [x] **(uninstall)** Use NtQuerySystemInformation to check if the payload proc is running. If so, terminate before delete from disk, otherwise deletion won't work.
 

