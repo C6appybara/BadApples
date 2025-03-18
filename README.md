@@ -1,3 +1,7 @@
+# BadApples RoadMap
+![BadApples](BadApples.png)
+
+
 # In the works...
  - [ ] **(anti debugging)** self deletion.
  - [ ] **(spying)** Impliment keylogging system using `NTAPI` functions.
