@@ -8,11 +8,6 @@
  - [ ] **(runtime)** CRT removal.
  - [ ] **(anti analysis)** Api hashing.
 
-# **r88** Rootkit implimentation
- - [ ] will be ran from the `Payload`
- - [ ] since the `Payload` will be ran at login. Do checks to see if r88 is already installed.
-- tbh, when r88 is installed there will be no need for the registry persistance.
-
 # 16/03/2025
  - [x] Achieved sending the screenshot to remote server via HTTP with wininet functions.
 
