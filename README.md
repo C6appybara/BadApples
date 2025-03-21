@@ -1,5 +1,5 @@
 # BadApples RoadMap
-![BadApples](BadApples.png)
+![BadApples](BadApples.svg)
 
 
 # In the works...
