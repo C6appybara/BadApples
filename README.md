@@ -1,23 +1,20 @@
 # BadApples RoadMap
 ![BadApples](BadApples.svg)
 
+# Description
+**BadApples** Is a `Spyware` like program that will capture screenshots of the users desktop and send the screenshot to a remote server. The screenshot that is taken is not stored on disk on the victims computer It's bytes are sent to a remote server straight away, and the remote server needs to then write those bytes to a .bmp file on disk. This project will implement more features in the future.
 
+I also wanted to play with some persistence techniques since I hadn't really messed around with them yet. I found this [Windows Persistance Map 1.0](https://how2itsec.blogspot.com/)where I then found the registry key that I use for this projects persistence. Nothing special but works fine.
+
+The project is not complete yet. The end goal is to implement a keylogging feature as well, and possibly more features later on.
+
+
+# Current features
+  - Capture desktop snapshot and send to remote server via `Wininet`.
+  - Exploit registry keys for persistence of the spyware.
+  - `GoodApples` Successfully uninstalls the spyware from the system.
 # In the works...
  - [ ] **(anti debugging)** self deletion.
- - [ ] **(spying)** Impliment keylogging system using `NTAPI` functions.
+ - [ ] **(spying)** Implement keylogging system using `NTAPI` functions.
  - [ ] **(runtime)** CRT removal.
  - [ ] **(anti analysis)** Api hashing.
-
-# 16/03/2025
- - [x] Achieved sending the screenshot to remote server via HTTP with wininet functions.
-
-# 15/03/2025 Update
- - [x] **(uninstall)** Use NtQuerySystemInformation to check if the payload proc is running. If so, terminate before delete from disk, otherwise deletion won't work.
-
-# Recent update
- - [x] `GoodApple` which is an uninstaller and will gracefully remove the persistance and payload.
- - [x] Read the payload file and wrote it to temp directory.
- - [x] Added execution of the payload after persistance achieved. I think that the execution method needs work.
- - [x] Changed the sysbsystem of the Payload so that no window pops up. (Had to use `CopyMemoryEx` maybe look at creating a helpers.h file)
- - [x] **(spying)** Customizable cooldown inbetween screenshots.
- 
