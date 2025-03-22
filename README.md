@@ -8,6 +8,12 @@ I also wanted to play with some persistence techniques since I hadn't really mes
 
 The project is not complete yet. The end goal is to implement a keylogging feature as well, and possibly more features later on.
 
+# How It Works
+`BadApples` is the installer basically. This will write the Payload to the temp directory, and will add a registry key **'Load'**, with the path to the payload in the temp dir, to the registry path `Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows` for persistance.
+
+`Payload` takes the screenshot of the users desktop and will then send the screenshot to a remote server via wininet. This is done in a loop that is customisable in the `common.h` header file in `BadApples\common.h`.
+
+`GoodApples` will uninstall the program by terminating the running payload process, removing it from temp, and removing the persistance registry key.
 
 # Current features
   - Capture desktop snapshot and send to remote server via `Wininet`.
